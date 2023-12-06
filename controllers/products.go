@@ -11,7 +11,7 @@ import (
 var temp = template.Must(template.ParseGlob("templates/*.html"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	produtos := models.GetAllProducts()
+	produtos := models.ListProducts()
 	temp.ExecuteTemplate(w, "Index", produtos)
 }
 

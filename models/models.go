@@ -14,7 +14,7 @@ type Produto struct {
 	Quantidade int
 }
 
-func GetAllProducts() []Produto {
+func ListProducts() []Produto {
 	db := db.ConnectDatabase()
 	defer db.Close()
 
@@ -51,20 +51,6 @@ func GetAllProducts() []Produto {
 	return produtos
 }
 
-func CreateProduct(nome, descricao string, preco float64, quantidade int) {
-	db := db.ConnectDatabase()
-	defer db.Close()
-
-	create, err := db.Prepare("INSERT INTO produtos (nome, descricao, preco, quantidade) VALUES ($1, $2, $3, $4);")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	create.Exec(nome, descricao, preco, quantidade)
-
-}
-
 func GetProduct(id string) Produto {
 	db := db.ConnectDatabase()
 	defer db.Close()
@@ -96,6 +82,20 @@ func GetProduct(id string) Produto {
 
 	}
 	return product
+}
+
+func CreateProduct(nome, descricao string, preco float64, quantidade int) {
+	db := db.ConnectDatabase()
+	defer db.Close()
+
+	create, err := db.Prepare("INSERT INTO produtos (nome, descricao, preco, quantidade) VALUES ($1, $2, $3, $4);")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	create.Exec(nome, descricao, preco, quantidade)
+
 }
 
 func EditProduct(id string, nome string, descricao string, preco float64, quantidade int) error {

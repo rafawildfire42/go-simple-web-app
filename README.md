@@ -22,7 +22,7 @@ In models, the structure of the data is defined. Additionally, functions are bui
 
 - Directory DB:
 
-Just for make DB operations like connect. The connection is made only when we wanna do operations in database, after this we close it.
+Just for make DB operations like connect. The connection is made only when we wanna do operations in database, after this we close it. (the names of the fields in bd are in portuguese - br)
 
 - Directory controllers:
 

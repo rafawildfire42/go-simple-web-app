@@ -6,15 +6,15 @@ import (
 	"strconv"
 )
 
-type Produto struct {
-	Id         int
-	Nome       string
-	Descricao  string
-	Preco      float64
-	Quantidade int
+type Product struct {
+	Id          int
+	Name        string
+	Description string
+	Price       float64
+	Amount      int
 }
 
-func ListProducts() []Produto {
+func ListProducts() []Product {
 	db := db.ConnectDatabase()
 	defer db.Close()
 
@@ -24,34 +24,34 @@ func ListProducts() []Produto {
 		panic(err.Error())
 	}
 
-	produto := Produto{}
-	produtos := []Produto{}
+	product := Product{}
+	products := []Product{}
 
 	for allProducts.Next() {
-		var id, quantidade int
-		var nome, descricao string
-		var preco float64
+		var id, amount int
+		var name, description string
+		var price float64
 
-		err = allProducts.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		err = allProducts.Scan(&id, &name, &description, &price, &amount)
 
 		if err != nil {
 			panic(err.Error())
 		}
 
-		produto.Id = id
-		produto.Nome = nome
-		produto.Descricao = descricao
-		produto.Quantidade = quantidade
-		produto.Preco = preco
+		product.Id = id
+		product.Name = name
+		product.Description = description
+		product.Amount = amount
+		product.Price = price
 
-		produtos = append(produtos, produto)
+		products = append(products, product)
 
 	}
 
-	return produtos
+	return products
 }
 
-func GetProduct(id string) Produto {
+func GetProduct(id string) Product {
 	db := db.ConnectDatabase()
 	defer db.Close()
 
@@ -61,30 +61,30 @@ func GetProduct(id string) Produto {
 		panic(err.Error())
 	}
 
-	product := Produto{}
+	product := Product{}
 
 	for productDb.Next() {
-		var id, quantidade int
-		var nome, descricao string
-		var preco float64
+		var id, amount int
+		var name, description string
+		var price float64
 
-		err = productDb.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		err = productDb.Scan(&id, &name, &description, &price, &amount)
 
 		if err != nil {
 			panic(err.Error())
 		}
 
 		product.Id = id
-		product.Nome = nome
-		product.Descricao = descricao
-		product.Preco = preco
-		product.Quantidade = quantidade
+		product.Name = name
+		product.Description = description
+		product.Price = price
+		product.Amount = amount
 
 	}
 	return product
 }
 
-func CreateProduct(nome, descricao string, preco float64, quantidade int) {
+func CreateProduct(name, description string, price float64, amount int) {
 	db := db.ConnectDatabase()
 	defer db.Close()
 
@@ -94,11 +94,11 @@ func CreateProduct(nome, descricao string, preco float64, quantidade int) {
 		panic(err.Error())
 	}
 
-	create.Exec(nome, descricao, preco, quantidade)
+	create.Exec(name, description, price, amount)
 
 }
 
-func EditProduct(id string, nome string, descricao string, preco float64, quantidade int) error {
+func EditProduct(id string, name string, description string, price float64, amount int) error {
 	db := db.ConnectDatabase()
 	defer db.Close()
 
@@ -112,7 +112,7 @@ func EditProduct(id string, nome string, descricao string, preco float64, quanti
 		fmt.Println(err)
 	}
 
-	_, err = edit.Exec(nome, descricao, preco, quantidade, productId)
+	_, err = edit.Exec(name, description, price, amount, productId)
 	return err
 }
 

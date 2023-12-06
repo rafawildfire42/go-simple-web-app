@@ -11,14 +11,14 @@ import (
 var temp = template.Must(template.ParseGlob("templates/*.html"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	produtos := models.ListProducts()
-	temp.ExecuteTemplate(w, "Index", produtos)
+	products := models.ListProducts()
+	temp.ExecuteTemplate(w, "Index", products)
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	productId := r.URL.Query().Get("id")
-	produto := models.GetProduct(productId)
-	temp.ExecuteTemplate(w, "Edit", produto)
+	product := models.GetProduct(productId)
+	temp.ExecuteTemplate(w, "Edit", product)
 }
 
 func New(w http.ResponseWriter, r *http.Request) {
@@ -27,24 +27,24 @@ func New(w http.ResponseWriter, r *http.Request) {
 
 func Insert(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		nome := r.FormValue("nome")
-		descricao := r.FormValue("descricao")
-		preco := r.FormValue("preco")
-		quantidade := r.FormValue("quantidade")
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		price := r.FormValue("price")
+		amount := r.FormValue("amount")
 
-		precoConvertido, err := strconv.ParseFloat(preco, 64)
+		convertedPrice, err := strconv.ParseFloat(price, 64)
 
 		if err != nil {
 			fmt.Println("Erro ao converter o preço para float64.")
 		}
 
-		quantidadeConvertida, err := strconv.Atoi(quantidade)
+		convertedAmount, err := strconv.Atoi(amount)
 
 		if err != nil {
-			fmt.Println("Erro ao converter a quantidade para int.")
+			fmt.Println("Erro ao converter a amount para int.")
 		}
 
-		models.CreateProduct(nome, descricao, precoConvertido, quantidadeConvertida)
+		models.CreateProduct(name, description, convertedPrice, convertedAmount)
 
 	}
 
@@ -60,24 +60,24 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 func Update(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		id := r.FormValue("id")
-		nome := r.FormValue("nome")
-		descricao := r.FormValue("descricao")
-		preco := r.FormValue("preco")
-		quantidade := r.FormValue("quantidade")
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		price := r.FormValue("price")
+		amount := r.FormValue("amount")
 
-		precoConvertido, err := strconv.ParseFloat(preco, 64)
+		convertedPrice, err := strconv.ParseFloat(price, 64)
 
 		if err != nil {
 			fmt.Println("Erro ao converter o preço para float64.")
 		}
 
-		quantidadeConvertida, err := strconv.Atoi(quantidade)
+		convertedAmount, err := strconv.Atoi(amount)
 
 		if err != nil {
-			fmt.Println("Erro ao converter a quantidade para int.")
+			fmt.Println("Erro ao converter a amount para int.")
 		}
 
-		models.EditProduct(id, nome, descricao, precoConvertido, quantidadeConvertida)
+		models.EditProduct(id, name, description, convertedPrice, convertedAmount)
 
 	}
 
